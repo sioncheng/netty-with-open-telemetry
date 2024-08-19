@@ -32,7 +32,10 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
         Tracer tracer = openTelemetry.getTracer("app-stater", "1.0.0");
 
         Span parentSpan = tracer.spanBuilder("parent").startSpan();
+
         Scope scope = parentSpan.makeCurrent();
+
+        logger.info("request {} {}", req.uri(), req.method());
 
         String fmt = """
                 {"url":"%s", "method":"%s", "tid":"%s"}
